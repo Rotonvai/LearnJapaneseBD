@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Katakana Chart</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #d6336c;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    h2 {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 12px;
+      justify-content: center;
+      max-width: 100%;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      padding: 16px;
+      touch-action: manipulation;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .kana {
+      font-size: 22px;
+      font-weight: bold;
+      color: #1e88e5;
+    }
+
+    .romaji {
+      font-size: 14px;
+      font-weight: bold;
+      color: #6d4c41;
+    }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px 20px;
+      width: 80%;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+      border-radius: 20px;
+      z-index: 999;
+      text-align: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .popup .kana {
+      font-size: 48px;
+      color: #e53935;
+    }
+
+    .popup .romaji {
+      font-size: 20px;
+      color: #3e2723;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 998;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -60%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    @media (min-width: 768px) {
+      h1 { font-size: 32px; }
+      h2 { font-size: 20px; }
+      .kana { font-size: 28px; }
+      .romaji { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Katakana Alphabet</h1>
+  <h2>Learn Katakana Alphabet</h2>
+  <div class="grid" id="hiragana-grid"></div>
+
+  <script>
+    const data = [
+      ['ア', 'a'], ['イ', 'i'], ['ウ', 'u'], ['エ', 'e'], ['オ', 'o'],
+      ['カ', 'ka'], ['キ', 'ki'], ['ク', 'ku'], ['ケ', 'ke'], ['コ', 'ko'],
+      ['サ', 'sa'], ['シ', 'shi'], ['ス', 'su'], ['セ', 'se'], ['ソ', 'so'],
+      ['タ', 'ta'], ['チ', 'chi'], ['ツ', 'tsu'], ['テ', 'te'], ['ト', 'to'],
+      ['ナ', 'na'], ['ニ', 'ni'], ['ヌ', 'nu'], ['ネ', 'ne'], ['ノ', 'no'],
+      ['ハ', 'ha'], ['ヒ', 'hi'], ['フ', 'fu'], ['ヘ', 'he'], ['ホ', 'ho'],
+      ['マ', 'ma'], ['ミ', 'mi'], ['ム', 'mu'], ['メ', 'me'], ['モ', 'mo'],
+      ['ヤ', 'ya'], ['ユ', 'yu'], ['ヨ', 'yo'],
+      ['ラ', 'ra'], ['リ', 'ri'], ['ル', 'ru'], ['レ', 're'], ['ロ', 'ro'],
+      ['ワ', 'wa'], ['ヲ', 'o'], ['ン', 'n'],
+      ['ガ', 'ga'], ['ギ', 'gi'], ['グ', 'gu'], ['ゲ', 'ge'], ['ゴ', 'go'],
+      ['ザ', 'za'], ['ジ', 'ji'], ['ズ', 'zu'], ['ゼ', 'ze'], ['ゾ', 'zo'],
+      ['ダ', 'da'], ['ヂ', 'ji'], ['ヅ', 'zu'], ['デ', 'de'], ['ド', 'do'],
+      ['バ', 'ba'], ['ビ', 'bi'], ['ブ', 'bu'], ['ベ', 'be'], ['ボ', 'bo'],
+      ['パ', 'pa'], ['ピ', 'pi'], ['プ', 'pu'], ['ペ', 'pe'], ['ポ', 'po'],
+      ['キャ', 'kya'], ['キュ', 'kyu'], ['キョ', 'kyo'],
+      ['シャ', 'sha'], ['シュ', 'shu'], ['ショ', 'sho'],
+      ['チャ', 'cha'], ['チュ', 'chu'], ['チョ', 'cho'],
+      ['ニャ', 'nya'], ['ニュ', 'nyu'], ['ニョ', 'nyo'],
+      ['ヒャ', 'hya'], ['ヒュ', 'hyu'], ['ヒョ', 'hyo'],
+      ['ミャ', 'mya'], ['ミュ', 'myu'], ['ミョ', 'myo'],
+      ['リャ', 'rya'], ['リュ', 'ryu'], ['リョ', 'ryo'],
+      ['ギャ', 'gya'], ['ギュ', 'gyu'], ['ギョ', 'gyo'],
+      ['ジャ', 'ja'], ['ジュ', 'ju'], ['ジョ', 'jo'],
+      ['ビャ', 'bya'], ['ビュ', 'byu'], ['ビョ', 'byo'],
+      ['ピャ', 'pya'], ['ピュ', 'pyu'], ['ピョ', 'pyo']
+    ];
+
+    const grid = document.getElementById('hiragana-grid');
+
+    data.forEach(([kana, romaji]) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<div class="kana">${kana}</div><div class="romaji">${romaji}</div>`;
+      card.addEventListener('click', () => showPopup(kana, romaji));
+      grid.appendChild(card);
+    });
+
+    function showPopup(kana, romaji) {
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay';
+      overlay.onclick = () => {
+        document.body.removeChild(overlay);
+        document.body.removeChild(popup);
+      };
+
+      const popup = document.createElement('div');
+      popup.className = 'popup';
+      popup.innerHTML = `<div class="kana">${kana}</div><div class="romaji">${romaji}</div>`;
+
+      document.body.appendChild(overlay);
+      document.body.appendChild(popup);
+    }
+  </script>
+</body>
+</html>

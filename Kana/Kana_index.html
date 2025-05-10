@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kana</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #e0f7fa, #e1bee7);
+      color: #333;
+    }
+
+    header {
+      background-color: #ffffffee;
+      padding: 20px 16px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      color: #43a047;
+      margin: 0;
+      font-family: 'Brush Script MT', cursive;
+      font-size: 2.2em;
+    }
+
+    .subtitle {
+      font-size: 1.2em;
+      margin-top: 5px;
+      font-weight: bold;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    @media (min-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 30px;
+      }
+    }
+
+    .kana-block {
+      background: white;
+      border-radius: 16px;
+      padding: 30px 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .kana-block:active {
+      transform: scale(0.97);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .kana-script {
+      font-size: 3em;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .romaji {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .description {
+      font-size: 1em;
+      color: #666;
+    }
+
+    .hiragana .kana-script { color: #43a047; }
+    .hiragana .romaji { color: #2e7d32; }
+
+    .katakana .kana-script { color: #1e88e5; }
+    .katakana .romaji { color: #1565c0; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>N5BdStu</h1>
+    <div class="subtitle">Kana – Choose a Script</div>
+  </header>
+
+  <div class="grid">
+    <!-- Hiragana Block -->
+    <a href="Hiragana.html" class="kana-block hiragana">
+      <div class="kana-script">ひらがな</div>
+      <div class="romaji">Hiragana</div>
+      <div class="description">Japanese native phonetic alphabet.</div>
+    </a>
+
+    <!-- Katakana Block -->
+    <a href="Katakana.html" class="kana-block katakana">
+      <div class="kana-script">カタカナ</div>
+      <div class="romaji">Katakana</div>
+      <div class="description">Used for foreign words and names.</div>
+    </a>
+  </div>
+
+</body>
+</html>
